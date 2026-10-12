@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ink">#111111</color>
+    <color name="paper">#F4EFE3</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_focused">#FFFBEA</color>
+    <color name="surface_overdue">#FFE3E3</color>
+    <color name="surface_overdue_pressed">#FFCFCF</color>
+    <color name="brand">#FFD23F</color>
+    <color name="urgency_high">#F2385A</color>
+    <color name="urgency_medium">#FF9F1C</color>
+    <color name="urgency_low">#2EC4B6</color>
+    <color name="error">#C8102E</color>
+    <color name="text_secondary">#5B5850</color>
+    <color name="text_hint">#77726A</color>
+    <color name="scrim">#8C111111</color>
+</resources>

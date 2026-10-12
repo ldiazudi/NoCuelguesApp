@@ -1,0 +1,93 @@
+<resources>
+    <string name="app_name" translatable="false">NoCuelguesApp</string>
+
+    <!-- Main screen -->
+    <string name="main_title">Mis vencimientos</string>
+    <string name="main_stat_overdue">Vencido</string>
+    <string name="main_stat_week">Esta semana</string>
+    <string name="main_stat_total">En total</string>
+    <string name="main_sort_label">Ordenado por días restantes</string>
+    <string name="action_new">Nuevo</string>
+
+    <!-- Empty state -->
+    <string name="empty_title">Todavía no cargaste nada</string>
+    <string name="empty_body">Sumá tu primer vencimiento y te avisamos antes de que se te pase la fecha.</string>
+    <string-array name="empty_examples">
+        <item>DNI</item>
+        <item>Carnet</item>
+        <item>Seguro</item>
+        <item>Garantía</item>
+        <item>Remedios</item>
+    </string-array>
+
+    <!-- Expiration card -->
+    <plurals name="item_days_unit">
+        <item quantity="one">día</item>
+        <item quantity="other">días</item>
+    </plurals>
+    <string name="item_unit_today">Hoy</string>
+    <string name="item_unit_overdue">Vencido</string>
+    <string name="item_expires_on">Vence el %1$s</string>
+    <string name="item_expires_today">Vence hoy</string>
+    <string name="item_expired_on">Venció el %1$s</string>
+    <plurals name="item_expired_ago">
+        <item quantity="one">hace %d día</item>
+        <item quantity="other">hace %d días</item>
+    </plurals>
+    <string name="item_date_separator" translatable="false">" · "</string>
+    <string name="item_content_description">%1$s, %2$s, urgencia %3$s</string>
+
+    <!-- Form -->
+    <string name="form_title_new">Nuevo vencimiento</string>
+    <string name="form_title_edit">Editar vencimiento</string>
+    <string name="field_name">Nombre</string>
+    <string name="field_name_hint">Ej.: DNI, seguro del auto</string>
+    <string name="field_date">Fecha de vencimiento</string>
+    <string name="field_date_hint">Elegí una fecha</string>
+    <string name="field_category">Categoría</string>
+    <string name="field_urgency">Urgencia</string>
+    <string name="field_note">Nota</string>
+    <string name="field_note_optional">Opcional</string>
+    <string name="field_counter">%1$d/%2$d</string>
+    <plurals name="form_days_left">
+        <item quantity="one">Falta %d día</item>
+        <item quantity="other">Faltan %d días</item>
+    </plurals>
+    <string name="form_due_today">Vence hoy</string>
+    <plurals name="form_days_overdue">
+        <item quantity="one">Venció hace %d día</item>
+        <item quantity="other">Venció hace %d días</item>
+    </plurals>
+    <string name="notice_scheduled">Te vamos a avisar %1$d días antes, el %2$s.</string>
+    <string name="notice_not_scheduled">La fecha está muy cerca: no se programa un aviso anticipado.</string>
+    <string name="error_name_required">Ingresá un nombre</string>
+    <string name="error_date_required">La fecha es obligatoria</string>
+
+    <!-- Categories -->
+    <string name="category_documents">Documentos</string>
+    <string name="category_licenses">Carnets</string>
+    <string name="category_insurance">Seguros</string>
+    <string name="category_warranties">Garantías</string>
+    <string name="category_health">Salud</string>
+    <string name="category_subscriptions">Suscripciones</string>
+    <string name="category_other">Otros</string>
+
+    <!-- Urgency -->
+    <string name="urgency_high">Alta</string>
+    <string name="urgency_medium">Media</string>
+    <string name="urgency_low">Baja</string>
+
+    <!-- Actions -->
+    <string name="action_save">Guardar</string>
+    <string name="action_save_changes">Guardar cambios</string>
+    <string name="action_delete">Eliminar</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_back">Volver</string>
+
+    <!-- Delete dialog -->
+    <string name="dialog_delete_title">¿Eliminar \"%1$s\"?</string>
+    <string name="dialog_delete_body">Se borra del listado y se cancela el aviso programado. No se puede deshacer.</string>
+
+    <!-- Formats -->
+    <string name="date_pattern">dd/MM/yyyy</string>
+</resources>

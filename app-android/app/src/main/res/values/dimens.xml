@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="stroke">2.5dp</dimen>
+    <dimen name="stroke_thin">2dp</dimen>
+
+    <dimen name="radius_xs">6dp</dimen>
+    <dimen name="radius_sm">8dp</dimen>
+    <dimen name="radius_md">10dp</dimen>
+    <dimen name="radius_lg">12dp</dimen>
+    <dimen name="radius_xl">16dp</dimen>
+
+    <dimen name="shadow_sm">2dp</dimen>
+    <dimen name="shadow">4dp</dimen>
+    <dimen name="shadow_lg">6dp</dimen>
+
+    <dimen name="space_xs">4dp</dimen>
+    <dimen name="space_sm">8dp</dimen>
+    <dimen name="space_md">12dp</dimen>
+    <dimen name="space_lg">16dp</dimen>
+    <dimen name="space_xl">20dp</dimen>
+    <dimen name="space_xxl">24dp</dimen>
+
+    <dimen name="touch_target">48dp</dimen>
+    <dimen name="days_block_width">80dp</dimen>
+    <dimen name="field_height">56dp</dimen>
+    <dimen name="button_height">56dp</dimen>
+    <dimen name="icon_sm">18dp</dimen>
+    <dimen name="icon_md">24dp</dimen>
+
+    <!-- Padding that keeps content centered on a surface drawn with a hard shadow -->
+    <dimen name="field_padding_horizontal">14dp</dimen>
+    <dimen name="field_padding_end">18dp</dimen>
+    <dimen name="card_padding_end">6.5dp</dimen>
+</resources>

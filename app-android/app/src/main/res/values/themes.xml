@@ -1,0 +1,28 @@
+<resources>
+
+    <style name="Base.Theme.NoCuelguesApp" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/ink</item>
+        <item name="colorOnPrimary">@color/surface</item>
+        <item name="colorSecondary">@color/brand</item>
+        <item name="colorError">@color/error</item>
+        <item name="android:colorBackground">@color/paper</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/ink</item>
+        <item name="android:textColorPrimary">@color/ink</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:fontFamily">@font/space_grotesk_medium</item>
+        <item name="fontFamily">@font/space_grotesk_medium</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
+
+    <style name="Theme.NoCuelguesApp" parent="Base.Theme.NoCuelguesApp" />
+
+<!--    <style name="Theme.NoCuelguesApp.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/paper</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo_animated</item>
+        <item name="windowSplashScreenAnimationDuration">900</item>
+        <item name="postSplashScreenTheme">@style/Theme.NoCuelguesApp</item>
+    </style>-->
+
+</resources>

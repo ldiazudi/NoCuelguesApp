@@ -1,0 +1,90 @@
+<resources>
+    <!-- Main screen -->
+    <string name="main_title">My due dates</string>
+    <string name="main_stat_overdue">Overdue</string>
+    <string name="main_stat_week">This week</string>
+    <string name="main_stat_total">Total</string>
+    <string name="main_sort_label">Sorted by days left</string>
+    <string name="action_new">New</string>
+
+    <!-- Empty state -->
+    <string name="empty_title">Nothing here yet</string>
+    <string name="empty_body">Add your first due date and we will remind you before it slips by.</string>
+    <string-array name="empty_examples">
+        <item>ID</item>
+        <item>License</item>
+        <item>Insurance</item>
+        <item>Warranty</item>
+        <item>Medicine</item>
+    </string-array>
+
+    <!-- Expiration card -->
+    <plurals name="item_days_unit">
+        <item quantity="one">day</item>
+        <item quantity="other">days</item>
+    </plurals>
+    <string name="item_unit_today">Today</string>
+    <string name="item_unit_overdue">Overdue</string>
+    <string name="item_expires_on">Due %1$s</string>
+    <string name="item_expires_today">Due today</string>
+    <string name="item_expired_on">Expired %1$s</string>
+    <plurals name="item_expired_ago">
+        <item quantity="one">%d day ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
+    <string name="item_content_description">%1$s, %2$s, %3$s urgency</string>
+
+    <!-- Form -->
+    <string name="form_title_new">New due date</string>
+    <string name="form_title_edit">Edit due date</string>
+    <string name="field_name">Name</string>
+    <string name="field_name_hint">E.g. ID card, car insurance</string>
+    <string name="field_date">Due date</string>
+    <string name="field_date_hint">Pick a date</string>
+    <string name="field_category">Category</string>
+    <string name="field_urgency">Urgency</string>
+    <string name="field_note">Note</string>
+    <string name="field_note_optional">Optional</string>
+    <string name="field_counter">%1$d/%2$d</string>
+    <plurals name="form_days_left">
+        <item quantity="one">%d day left</item>
+        <item quantity="other">%d days left</item>
+    </plurals>
+    <string name="form_due_today">Due today</string>
+    <plurals name="form_days_overdue">
+        <item quantity="one">Expired %d day ago</item>
+        <item quantity="other">Expired %d days ago</item>
+    </plurals>
+    <string name="notice_scheduled">We will remind you %1$d days before, on %2$s.</string>
+    <string name="notice_not_scheduled">The date is too close: no early reminder will be scheduled.</string>
+    <string name="error_name_required">Enter a name</string>
+    <string name="error_date_required">The date is required</string>
+
+    <!-- Categories -->
+    <string name="category_documents">Documents</string>
+    <string name="category_licenses">Licenses</string>
+    <string name="category_insurance">Insurance</string>
+    <string name="category_warranties">Warranties</string>
+    <string name="category_health">Health</string>
+    <string name="category_subscriptions">Subscriptions</string>
+    <string name="category_other">Other</string>
+
+    <!-- Urgency -->
+    <string name="urgency_high">High</string>
+    <string name="urgency_medium">Medium</string>
+    <string name="urgency_low">Low</string>
+
+    <!-- Actions -->
+    <string name="action_save">Save</string>
+    <string name="action_save_changes">Save changes</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_back">Back</string>
+
+    <!-- Delete dialog -->
+    <string name="dialog_delete_title">Delete \"%1$s\"?</string>
+    <string name="dialog_delete_body">It will be removed from the list and its reminder will be cancelled. This cannot be undone.</string>
+
+    <!-- Formats -->
+    <string name="date_pattern">MM/dd/yyyy</string>
+</resources>
