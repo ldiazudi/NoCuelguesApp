@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Simplified logo symbol (brand/logo-kit/icons/favicon-small.svg), for sizes under 48px -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="246"
+    android:viewportHeight="246">
+    <group
+        android:scaleX="1.1"
+        android:scaleY="1.1"
+        android:translateX="-6"
+        android:translateY="-6">
+        <path
+            android:fillColor="@color/brand"
+            android:pathData="M44,8 h144 a36,36 0 0 1 36,36 v144 a36,36 0 0 1 -36,36 h-144 a36,36 0 0 1 -36,-36 v-144 a36,36 0 0 1 36,-36z"
+            android:strokeWidth="14"
+            android:strokeColor="@color/ink"
+            android:strokeLineJoin="round" />
+        <path
+            android:pathData="M116,26 V60"
+            android:strokeWidth="16"
+            android:strokeColor="@color/ink"
+            android:strokeLineCap="round" />
+        <group
+            android:pivotX="116"
+            android:pivotY="64"
+            android:rotation="12">
+            <path
+                android:fillColor="@color/surface"
+                android:pathData="M62,64 h108 a6,6 0 0 1 6,6 v128 a6,6 0 0 1 -6,6 h-108 a6,6 0 0 1 -6,-6 v-128 a6,6 0 0 1 6,-6z"
+                android:strokeWidth="14"
+                android:strokeColor="@color/ink"
+                android:strokeLineJoin="round" />
+        </group>
+        <group
+            android:pivotX="116"
+            android:pivotY="64"
+            android:rotation="-10">
+            <path
+                android:fillColor="@color/surface"
+                android:pathData="M62,64 h108 a6,6 0 0 1 6,6 v128 a6,6 0 0 1 -6,6 h-108 a6,6 0 0 1 -6,-6 v-128 a6,6 0 0 1 6,-6z"
+                android:strokeWidth="14"
+                android:strokeColor="@color/ink"
+                android:strokeLineJoin="round" />
+        </group>
+        <path
+            android:fillColor="@color/surface"
+            android:pathData="M62,64 h108 a6,6 0 0 1 6,6 v128 a6,6 0 0 1 -6,6 h-108 a6,6 0 0 1 -6,-6 v-128 a6,6 0 0 1 6,-6z"
+            android:strokeWidth="14"
+            android:strokeColor="@color/ink"
+            android:strokeLineJoin="round" />
+        <path
+            android:fillColor="@color/urgency_high"
+            android:pathData="M56,70 a6,6 0 0 1 6,-6 h108 a6,6 0 0 1 6,6 v34 h-120z"
+            android:strokeWidth="14"
+            android:strokeColor="@color/ink"
+            android:strokeLineJoin="round" />
+        <path
+            android:pathData="M88,146 l18,18 l36,-40"
+            android:strokeWidth="18"
+            android:strokeColor="@color/ink"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+    </group>
+</vector>

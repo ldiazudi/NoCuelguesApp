@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/space_md"
+    android:background="@drawable/bg_card"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/stroke"
+    android:paddingTop="@dimen/stroke"
+    android:paddingEnd="@dimen/card_padding_end"
+    android:paddingBottom="@dimen/card_padding_end">
+
+    <LinearLayout
+        android:id="@+id/layout_days"
+        android:layout_width="@dimen/days_block_width"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_days_block"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_days_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.NoCuelgues.DaysNumber"
+            tools:text="18" />
+
+        <TextView
+            android:id="@+id/text_days_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.NoCuelgues.Badge"
+            tools:text="días" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="@dimen/stroke"
+        android:layout_height="match_parent"
+        android:background="@color/ink" />
+
+    <LinearLayout
+        android:id="@+id/layout_body"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingStart="14dp"
+        android:paddingTop="@dimen/space_md"
+        android:paddingEnd="@dimen/space_md"
+        android:paddingBottom="@dimen/space_md">
+
+        <LinearLayout
+            android:id="@+id/layout_top_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textAppearance="@style/TextAppearance.NoCuelgues.Title"
+                tools:text="Pasaporte" />
+
+            <TextView
+                android:id="@+id/text_urgency"
+                style="@style/Widget.NoCuelgues.Badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_sm"
+                android:background="@drawable/bg_badge_high"
+                tools:text="Alta" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:drawableStart="@drawable/ic_category_documents"
+            android:drawablePadding="@dimen/space_xs"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/TextAppearance.NoCuelgues.BodyStrong"
+            tools:text="Documentos" />
+
+        <TextView
+            android:id="@+id/text_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:textAppearance="@style/TextAppearance.NoCuelgues.Caption"
+            tools:text="Vence el 30/10/2026" />
+
+        <TextView
+            android:id="@+id/text_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.NoCuelgues.Caption"
+            tools:text="Pedir turno en Migraciones" />
+
+    </LinearLayout>
+
+</LinearLayout>
