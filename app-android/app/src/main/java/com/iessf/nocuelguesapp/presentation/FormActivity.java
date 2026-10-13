@@ -1,0 +1,359 @@
+package com.iessf.nocuelguesapp.presentation;
+
+import android.app.DatePickerDialog;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.widget.TextViewCompat;
+
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+
+import com.iessf.nocuelguesapp.R;
+import com.iessf.nocuelguesapp.application.ExpirationService;
+import com.iessf.nocuelguesapp.data.ExpirationItemRepository;
+import com.iessf.nocuelguesapp.domain.model.Category;
+import com.iessf.nocuelguesapp.domain.model.ExpirationItem;
+import com.iessf.nocuelguesapp.domain.model.Urgency;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
+/**
+ * Creates a new expiration item or edits an existing one.
+ * Without {@link #EXTRA_ITEM_ID} it works in "new" mode.
+ */
+public class FormActivity extends AppCompatActivity {
+
+    public static final String EXTRA_ITEM_ID = "expiration_item_id";
+    private static final String STATE_SELECTED_DATE = "selected_date";
+    private static final String STATE_SELECTED_CATEGORY = "selected_category";
+    private static final Category DEFAULT_CATEGORY = Category.OTHER;
+
+    private ExpirationService service;
+    private String itemId;
+    private LocalDate selectedDate;
+    private int nameMaxLength;
+    private int noteMaxLength;
+
+    private EditText inputName;
+    private TextView textNameCounter;
+    private TextView textNameError;
+    private TextView inputDate;
+    private TextView textDaysLeft;
+    private TextView textDateError;
+    private ChipGroup chipGroupCategory;
+    private RadioGroup radioGroupUrgency;
+    private EditText inputNote;
+    private TextView textNoteCounter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_form);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars()
+                    | WindowInsetsCompat.Type.ime());
+            v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
+            return insets;
+        });
+
+        service = new ExpirationService(new ExpirationItemRepository(this));
+        itemId = getIntent().getStringExtra(EXTRA_ITEM_ID);
+        nameMaxLength = getResources().getInteger(R.integer.name_max_length);
+        noteMaxLength = getResources().getInteger(R.integer.note_max_length);
+
+        inputName = findViewById(R.id.input_name);
+        textNameCounter = findViewById(R.id.text_name_counter);
+        textNameError = findViewById(R.id.text_name_error);
+        inputDate = findViewById(R.id.input_date);
+        textDaysLeft = findViewById(R.id.text_days_left);
+        textDateError = findViewById(R.id.text_date_error);
+        chipGroupCategory = findViewById(R.id.chip_group_category);
+        radioGroupUrgency = findViewById(R.id.radio_group_urgency);
+        inputNote = findViewById(R.id.input_note);
+        textNoteCounter = findViewById(R.id.text_note_counter);
+
+        Button buttonSave = findViewById(R.id.button_save);
+        centerIconWithText(buttonSave);
+        centerIconWithText(findViewById(R.id.radio_urgency_high));
+        centerIconWithText(findViewById(R.id.radio_urgency_medium));
+        centerIconWithText(findViewById(R.id.radio_urgency_low));
+
+        findViewById(R.id.button_back).setOnClickListener(v -> finish());
+        inputDate.setOnClickListener(v -> openDatePicker());
+        buttonSave.setOnClickListener(v -> saveItem());
+        inputName.addTextChangedListener(new SimpleTextWatcher(() -> {
+            updateNameCounter();
+            showNameError(false);
+        }));
+        inputNote.addTextChangedListener(new SimpleTextWatcher(this::updateNoteCounter));
+
+        addCategoryChips();
+        selectCategory(DEFAULT_CATEGORY);
+
+        if (itemId != null) {
+            ExpirationItem item = service.findById(itemId);
+            if (item == null) {
+                Toast.makeText(this, R.string.form_item_missing, Toast.LENGTH_SHORT).show();
+                finish();
+                return;
+            }
+            showEditMode(item);
+            if (savedInstanceState == null) {
+                fillFields(item);
+            }
+        }
+        if (savedInstanceState != null) {
+            String savedDate = savedInstanceState.getString(STATE_SELECTED_DATE);
+            if (savedDate != null) {
+                selectedDate = LocalDate.parse(savedDate);
+            }
+            selectCategory(Category.valueOf(savedInstanceState.getString(STATE_SELECTED_CATEGORY)));
+        }
+        updateNameCounter();
+        updateNoteCounter();
+        showDate();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showDate();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (selectedDate != null) {
+            outState.putString(STATE_SELECTED_DATE, selectedDate.toString());
+        }
+        // Chips are created in code, so Android cannot restore their checked state by itself.
+        outState.putString(STATE_SELECTED_CATEGORY, getSelectedCategory().name());
+    }
+
+    private void showEditMode(ExpirationItem item) {
+        TextView textItemName = findViewById(R.id.text_item_name);
+        textItemName.setText(item.getName());
+        textItemName.setVisibility(View.VISIBLE);
+        ((TextView) findViewById(R.id.text_title)).setText(R.string.form_title_edit);
+        ((Button) findViewById(R.id.button_save)).setText(R.string.action_save_changes);
+
+        View buttonDelete = findViewById(R.id.button_delete);
+        buttonDelete.setVisibility(View.VISIBLE);
+        buttonDelete.setOnClickListener(v -> confirmDelete(item.getName()));
+    }
+
+    private void confirmDelete(String itemName) {
+        View content = getLayoutInflater().inflate(R.layout.dialog_confirm_delete, null);
+        ((TextView) content.findViewById(R.id.text_dialog_title))
+                .setText(getString(R.string.dialog_delete_title, itemName));
+
+        AlertDialog dialog = new AlertDialog.Builder(this).setView(content).create();
+        content.findViewById(R.id.button_cancel).setOnClickListener(v -> dialog.dismiss());
+        content.findViewById(R.id.button_confirm_delete).setOnClickListener(v -> {
+            dialog.dismiss();
+            service.delete(itemId);
+            finish();
+        });
+        dialog.show();
+        // Only the layout's own background (border and hard shadow) should be visible.
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+    }
+
+    private void fillFields(ExpirationItem item) {
+        inputName.setText(item.getName());
+        inputNote.setText(item.getNote());
+        selectedDate = item.getExpirationDate();
+        selectCategory(item.getCategory());
+        radioGroupUrgency.check(urgencyToRadioId(item.getUrgency()));
+    }
+
+    private void openDatePicker() {
+        LocalDate initial = selectedDate != null ? selectedDate : LocalDate.now();
+        new DatePickerDialog(this, (picker, year, month, day) -> {
+            // DatePicker months are zero-based; LocalDate months are one-based.
+            selectedDate = LocalDate.of(year, month + 1, day);
+            showDateError(false);
+            showDate();
+        }, initial.getYear(), initial.getMonthValue() - 1, initial.getDayOfMonth()).show();
+    }
+
+    private void saveItem() {
+        String name = inputName.getText().toString().trim();
+        boolean nameMissing = name.isEmpty();
+        boolean dateMissing = selectedDate == null;
+        showNameError(nameMissing);
+        showDateError(dateMissing);
+        if (nameMissing) {
+            inputName.requestFocus();
+            return;
+        }
+        if (dateMissing) {
+            inputDate.requestFocus();
+            return;
+        }
+        if (itemId != null && service.findById(itemId) == null) {
+            Toast.makeText(this, R.string.form_item_missing, Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        Category category = getSelectedCategory();
+        Urgency urgency = radioIdToUrgency(radioGroupUrgency.getCheckedRadioButtonId());
+        String note = inputNote.getText().toString().trim();
+        ExpirationItem item = itemId == null
+                ? new ExpirationItem(name, selectedDate, category, urgency, note)
+                : new ExpirationItem(itemId, name, selectedDate, category, urgency, note);
+        service.save(item);
+
+        Toast.makeText(this, R.string.form_saved, Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    private void showDate() {
+        if (selectedDate == null) {
+            return;
+        }
+        inputDate.setText(selectedDate.format(
+                DateTimeFormatter.ofPattern(getString(R.string.date_pattern))));
+
+        int days = (int) ChronoUnit.DAYS.between(LocalDate.now(), selectedDate);
+        if (days > 0) {
+            textDaysLeft.setText(getResources().getQuantityString(R.plurals.form_days_left, days, days));
+        } else if (days == 0) {
+            textDaysLeft.setText(R.string.form_due_today);
+        } else {
+            textDaysLeft.setText(getResources().getQuantityString(R.plurals.form_days_overdue, -days, -days));
+        }
+
+        boolean overdue = days < 0;
+        int textColor = ContextCompat.getColor(this, overdue ? R.color.brand : R.color.ink);
+        textDaysLeft.setBackgroundResource(overdue ? R.drawable.bg_pill_overdue : R.drawable.bg_pill);
+        textDaysLeft.setTextColor(textColor);
+        TextViewCompat.setCompoundDrawableTintList(textDaysLeft, ColorStateList.valueOf(textColor));
+        textDaysLeft.setVisibility(View.VISIBLE);
+    }
+
+    private void addCategoryChips() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        for (Category category : Category.values()) {
+            Chip chip = (Chip) inflater.inflate(R.layout.chip_category, chipGroupCategory, false);
+            chip.setId(View.generateViewId());
+            chip.setTag(category);
+            chip.setText(ExpirationResources.categoryLabel(category));
+            chip.setChipIconResource(ExpirationResources.categoryIcon(category));
+            chipGroupCategory.addView(chip);
+        }
+    }
+
+    private void selectCategory(Category category) {
+        chipGroupCategory.check(chipGroupCategory.findViewWithTag(category).getId());
+    }
+
+    private Category getSelectedCategory() {
+        View chip = chipGroupCategory.findViewById(chipGroupCategory.getCheckedChipId());
+        return (Category) chip.getTag();
+    }
+
+    private void updateNameCounter() {
+        textNameCounter.setText(getString(R.string.field_counter,
+                inputName.length(), nameMaxLength));
+    }
+
+    private void updateNoteCounter() {
+        textNoteCounter.setText(getString(R.string.field_note_optional)
+                + getString(R.string.item_date_separator)
+                + getString(R.string.field_counter, inputNote.length(), noteMaxLength));
+    }
+
+    private void showNameError(boolean visible) {
+        inputName.setBackgroundResource(visible ? R.drawable.bg_input_error : R.drawable.bg_input);
+        textNameError.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    private void showDateError(boolean visible) {
+        inputDate.setBackgroundResource(visible ? R.drawable.bg_input_error : R.drawable.bg_input);
+        textDateError.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    /**
+     * A wide TextView (Button, RadioButton) draws its start icon at the left edge, away from
+     * the centered text. This keeps both together in the middle by recalculating the side padding.
+     */
+    private static void centerIconWithText(TextView view) {
+        int shadowOffset = view.getPaddingEnd() - view.getPaddingStart();
+        view.addOnLayoutChangeListener((v, left, top, right, bottom,
+                                        oldLeft, oldTop, oldRight, oldBottom) -> {
+            Drawable icon = view.getCompoundDrawablesRelative()[0];
+            int iconWidth = icon == null ? 0 : icon.getIntrinsicWidth() + view.getCompoundDrawablePadding();
+            float textWidth = view.getPaint().measureText(view.getText().toString());
+            int sidePadding = Math.max(0, (int) ((view.getWidth() - shadowOffset - iconWidth - textWidth) / 2));
+            view.setPaddingRelative(sidePadding, view.getPaddingTop(),
+                    sidePadding + shadowOffset, view.getPaddingBottom());
+        });
+    }
+
+    private static int urgencyToRadioId(Urgency urgency) {
+        switch (urgency) {
+            case HIGH:
+                return R.id.radio_urgency_high;
+            case LOW:
+                return R.id.radio_urgency_low;
+            default:
+                return R.id.radio_urgency_medium;
+        }
+    }
+
+    private static Urgency radioIdToUrgency(int radioId) {
+        if (radioId == R.id.radio_urgency_high) {
+            return Urgency.HIGH;
+        }
+        if (radioId == R.id.radio_urgency_low) {
+            return Urgency.LOW;
+        }
+        return Urgency.MEDIUM;
+    }
+
+    /** TextWatcher that only cares about the text having changed. */
+    private static final class SimpleTextWatcher implements TextWatcher {
+
+        private final Runnable onChanged;
+
+        SimpleTextWatcher(Runnable onChanged) {
+            this.onChanged = onChanged;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            onChanged.run();
+        }
+    }
+}

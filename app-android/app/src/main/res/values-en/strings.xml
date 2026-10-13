@@ -59,6 +59,8 @@
     <string name="notice_not_scheduled">The date is too close: no early reminder will be scheduled.</string>
     <string name="error_name_required">Enter a name</string>
     <string name="error_date_required">The date is required</string>
+    <string name="form_saved">Due date saved</string>
+    <string name="form_item_missing">This item is no longer available</string>
 
     <!-- Categories -->
     <string name="category_documents">Documents</string>
@@ -87,17 +89,4 @@
 
     <!-- Formats -->
     <string name="date_pattern">MM/dd/yyyy</string>
-    <string name="form_note_optional_label">Optional note</string>
-    <string name="form_note_hint">Write a short note</string>
-    <string name="form_saved">Expiry date saved</string>
-    <string name="form_item_missing">This item is no longer available</string>
-    <string-array name="categorias">
-        <item>@string/category_documents</item>
-        <item>@string/category_licenses</item>
-        <item>@string/category_insurance</item>
-        <item>@string/category_warranties</item>
-        <item>@string/category_health</item>
-        <item>@string/category_subscriptions</item>
-        <item>@string/category_other</item>
-    </string-array>
 </resources>

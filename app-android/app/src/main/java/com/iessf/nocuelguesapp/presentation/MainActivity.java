@@ -4,6 +4,7 @@ import com.iessf.nocuelguesapp.R;
 import com.iessf.nocuelguesapp.application.ExpirationService;
 import com.iessf.nocuelguesapp.data.ExpirationItemRepository;
 import com.iessf.nocuelguesapp.domain.model.ExpirationItem;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,9 +48,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Composición: conectamos los casos de uso con el almacenamiento existente.
-        ExpirationItemRepository repository = new ExpirationItemRepository(this);
-        service = new ExpirationService(repository);
+        service = new ExpirationService(new ExpirationItemRepository(this));
 
         layoutStats = findViewById(R.id.layout_stats);
         layoutSort = findViewById(R.id.layout_sort);
@@ -105,9 +104,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openForm(@Nullable String itemId) {
-        android.content.Intent intent = new android.content.Intent(this, FormularioActivity.class);
+        Intent intent = new Intent(this, FormActivity.class);
         if (itemId != null) {
-            intent.putExtra(FormularioActivity.EXTRA_ITEM_ID, itemId);
+            intent.putExtra(FormActivity.EXTRA_ITEM_ID, itemId);
         }
         startActivity(intent);
     }

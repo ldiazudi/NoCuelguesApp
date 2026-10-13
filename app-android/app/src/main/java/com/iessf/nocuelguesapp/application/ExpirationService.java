@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Casos de uso compartidos por la pantalla principal y el futuro formulario. */
+/** Use cases shared by the main screen and the form. */
 public final class ExpirationService {
     private static final int WEEK_DAYS = 7;
     private final ExpirationRepository repository;
@@ -21,9 +21,17 @@ public final class ExpirationService {
         return items;
     }
 
-    public ExpirationItem findById(String id) { return repository.findById(id); }
-    public void save(ExpirationItem item) { repository.save(item); }
-    public void delete(String id) { repository.delete(id); }
+    public ExpirationItem findById(String id) {
+        return repository.findById(id);
+    }
+
+    public void save(ExpirationItem item) {
+        repository.save(item);
+    }
+
+    public void delete(String id) {
+        repository.delete(id);
+    }
 
     public Summary summarize(List<ExpirationItem> items, LocalDate today) {
         int overdue = 0;
@@ -50,8 +58,16 @@ public final class ExpirationService {
             this.total = total;
         }
 
-        public int getOverdue() { return overdue; }
-        public int getThisWeek() { return thisWeek; }
-        public int getTotal() { return total; }
+        public int getOverdue() {
+            return overdue;
+        }
+
+        public int getThisWeek() {
+            return thisWeek;
+        }
+
+        public int getTotal() {
+            return total;
+        }
     }
 }
