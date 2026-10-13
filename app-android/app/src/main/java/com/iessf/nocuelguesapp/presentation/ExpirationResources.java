@@ -6,7 +6,7 @@ import com.iessf.nocuelguesapp.R;
 import com.iessf.nocuelguesapp.domain.model.Category;
 import com.iessf.nocuelguesapp.domain.model.Urgency;
 
-/** Maps model values to Android strings, icons and backgrounds. */
+/** Traduce los valores del modelo a textos, íconos y fondos de Android. */
 public final class ExpirationResources {
     private ExpirationResources() { }
 

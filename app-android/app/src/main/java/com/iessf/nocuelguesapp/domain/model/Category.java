@@ -1,6 +1,6 @@
 package com.iessf.nocuelguesapp.domain.model;
 
-/** Fixed categories. Their names are also the values stored on disk. */
+/** Categorías fijas. Sus nombres son también los valores que se guardan en el dispositivo. */
 public enum Category {
     DOCUMENTS, LICENSES, INSURANCE, WARRANTIES, HEALTH, SUBSCRIPTIONS, OTHER
 }

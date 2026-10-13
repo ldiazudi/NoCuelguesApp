@@ -38,8 +38,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 /**
- * Creates a new expiration item or edits an existing one.
- * Without {@link #EXTRA_ITEM_ID} it works in "new" mode.
+ * Da de alta un vencimiento o edita uno existente.
+ * Sin {@link #EXTRA_ITEM_ID} funciona en modo alta.
  */
 public class FormActivity extends AppCompatActivity {
 
@@ -147,7 +147,7 @@ public class FormActivity extends AppCompatActivity {
         if (selectedDate != null) {
             outState.putString(STATE_SELECTED_DATE, selectedDate.toString());
         }
-        // Chips are created in code, so Android cannot restore their checked state by itself.
+        // Los chips se crean por código, así que Android no puede restaurar solo cuál estaba marcado.
         outState.putString(STATE_SELECTED_CATEGORY, getSelectedCategory().name());
     }
 
@@ -176,7 +176,7 @@ public class FormActivity extends AppCompatActivity {
             finish();
         });
         dialog.show();
-        // Only the layout's own background (border and hard shadow) should be visible.
+        // Solo debe verse el fondo propio del layout (borde y sombra dura), no el de la ventana.
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
     }
 
@@ -191,7 +191,7 @@ public class FormActivity extends AppCompatActivity {
     private void openDatePicker() {
         LocalDate initial = selectedDate != null ? selectedDate : LocalDate.now();
         new DatePickerDialog(this, (picker, year, month, day) -> {
-            // DatePicker months are zero-based; LocalDate months are one-based.
+            // DatePicker numera los meses desde 0; LocalDate, desde 1.
             selectedDate = LocalDate.of(year, month + 1, day);
             showDateError(false);
             showDate();
@@ -297,8 +297,8 @@ public class FormActivity extends AppCompatActivity {
     }
 
     /**
-     * A wide TextView (Button, RadioButton) draws its start icon at the left edge, away from
-     * the centered text. This keeps both together in the middle by recalculating the side padding.
+     * Un TextView ancho (Button, RadioButton) dibuja el ícono inicial pegado al borde izquierdo,
+     * lejos del texto centrado. Esto los mantiene juntos en el medio recalculando el padding lateral.
      */
     private static void centerIconWithText(TextView view) {
         int shadowOffset = view.getPaddingEnd() - view.getPaddingStart();
@@ -334,7 +334,7 @@ public class FormActivity extends AppCompatActivity {
         return Urgency.MEDIUM;
     }
 
-    /** TextWatcher that only cares about the text having changed. */
+    /** TextWatcher que solo avisa que el texto cambió. */
     private static final class SimpleTextWatcher implements TextWatcher {
 
         private final Runnable onChanged;

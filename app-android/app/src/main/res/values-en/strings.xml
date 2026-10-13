@@ -1,5 +1,5 @@
 <resources>
-    <!-- Main screen -->
+    <!-- Pantalla principal -->
     <string name="main_title">My due dates</string>
     <string name="main_stat_overdue">Overdue</string>
     <string name="main_stat_week">This week</string>
@@ -7,7 +7,7 @@
     <string name="main_sort_label">Sorted by days left</string>
     <string name="action_new">New</string>
 
-    <!-- Empty state -->
+    <!-- Estado vacío -->
     <string name="empty_title">Nothing here yet</string>
     <string name="empty_body">Add your first due date and we will remind you before it slips by.</string>
     <string-array name="empty_examples">
@@ -18,7 +18,7 @@
         <item>Medicine</item>
     </string-array>
 
-    <!-- Expiration card -->
+    <!-- Tarjeta de vencimiento -->
     <plurals name="item_days_unit">
         <item quantity="one">day</item>
         <item quantity="other">days</item>
@@ -34,7 +34,7 @@
     </plurals>
     <string name="item_content_description">%1$s, %2$s, %3$s urgency</string>
 
-    <!-- Form -->
+    <!-- Formulario -->
     <string name="form_title_new">New due date</string>
     <string name="form_title_edit">Edit due date</string>
     <string name="field_name">Name</string>
@@ -62,7 +62,7 @@
     <string name="form_saved">Due date saved</string>
     <string name="form_item_missing">This item is no longer available</string>
 
-    <!-- Categories -->
+    <!-- Categorías -->
     <string name="category_documents">Documents</string>
     <string name="category_licenses">Licenses</string>
     <string name="category_insurance">Insurance</string>
@@ -71,22 +71,22 @@
     <string name="category_subscriptions">Subscriptions</string>
     <string name="category_other">Other</string>
 
-    <!-- Urgency -->
+    <!-- Urgencia -->
     <string name="urgency_high">High</string>
     <string name="urgency_medium">Medium</string>
     <string name="urgency_low">Low</string>
 
-    <!-- Actions -->
+    <!-- Acciones -->
     <string name="action_save">Save</string>
     <string name="action_save_changes">Save changes</string>
     <string name="action_delete">Delete</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_back">Back</string>
 
-    <!-- Delete dialog -->
+    <!-- Diálogo de eliminación -->
     <string name="dialog_delete_title">Delete \"%1$s\"?</string>
     <string name="dialog_delete_body">It will be removed from the list and its reminder will be cancelled. This cannot be undone.</string>
 
-    <!-- Formats -->
+    <!-- Formatos -->
     <string name="date_pattern">MM/dd/yyyy</string>
 </resources>

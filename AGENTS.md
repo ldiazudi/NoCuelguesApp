@@ -51,7 +51,7 @@ Paquete `com.iessf.nocuelguesapp`, organizado en capas. Cada capa solo conoce a 
 ## Convenciones de código
 
 - Todo identificador en inglés: clases, métodos, variables, ids, nombres de archivo y recursos. Nada de `FormularioActivity`, `fechaSeleccionada`, `edtNombre`.
-- Comentarios en inglés, solo cuando explican una restricción que el código no muestra.
+- Comentarios y Javadoc en español (en Java y en XML), para que el equipo los lea y los explique sin esfuerzo. Solo cuando aportan algo que el código no muestra: una restricción, un motivo o un detalle de Android poco obvio.
 - Ningún texto visible en Java ni en layouts: todo en `res/values/strings.xml` (español, por defecto) y `res/values-en/strings.xml` (inglés), siempre en los dos. Cantidades con `plurals`. Antes de crear un texto, buscar si ya existe.
 - Ningún color, tamaño o margen suelto en layouts si existe recurso: `@color/...`, `@dimen/...`, `@integer/...`, estilos `Widget.NoCuelgues.*` y `TextAppearance.NoCuelgues.*`.
 - Ids de vistas en `snake_case` con prefijo por tipo:

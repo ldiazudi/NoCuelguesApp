@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Binds expiration items to the cards defined in item_expiration.xml.
+ * Muestra cada vencimiento en una tarjeta definida en item_expiration.xml.
  */
 public class ExpirationItemAdapter extends RecyclerView.Adapter<ExpirationItemAdapter.ViewHolder> {
 
@@ -38,7 +38,7 @@ public class ExpirationItemAdapter extends RecyclerView.Adapter<ExpirationItemAd
         this.listener = listener;
     }
 
-    /** Replaces the whole list; {@code today} is the reference date for days left. */
+    /** Reemplaza la lista completa; {@code today} es la fecha de referencia para los días restantes. */
     @SuppressLint("NotifyDataSetChanged")
     public void setItems(List<ExpirationItem> newItems, LocalDate today) {
         this.today = today;

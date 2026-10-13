@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Text appearances -->
+    <!-- Apariencias de texto -->
 
     <style name="TextAppearance.NoCuelgues" parent="">
         <item name="android:textColor">@color/ink</item>
@@ -92,7 +92,7 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <!-- Shapes -->
+    <!-- Formas -->
 
     <style name="ShapeAppearance.NoCuelgues.Small" parent="">
         <item name="cornerFamily">rounded</item>
@@ -104,7 +104,7 @@
         <item name="cornerSize">@dimen/radius_xs</item>
     </style>
 
-    <!-- Components -->
+    <!-- Componentes -->
 
     <style name="Widget.NoCuelgues.Button" parent="">
         <item name="android:layout_height">@dimen/button_height</item>

@@ -1,6 +1,6 @@
 package com.iessf.nocuelguesapp.domain.model;
 
-/** Declaration order is the priority used to sort items due on the same day. */
+/** El orden de declaración es la prioridad para ordenar vencimientos del mismo día. */
 public enum Urgency {
     HIGH, MEDIUM, LOW
 }

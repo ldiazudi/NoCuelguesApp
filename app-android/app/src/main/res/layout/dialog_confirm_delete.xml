@@ -10,7 +10,7 @@
     android:paddingEnd="26dp"
     android:paddingBottom="26dp">
 
-    <!-- 52dp square plus its 2dp shadow -->
+    <!-- Cuadrado de 52dp más su sombra de 2dp -->
     <FrameLayout
         android:layout_width="54dp"
         android:layout_height="54dp"

@@ -6,13 +6,13 @@ import java.util.Comparator;
 import java.util.UUID;
 
 /**
- * A document or obligation with an expiration date.
+ * Documento u obligación con fecha de vencimiento.
  */
 public class ExpirationItem {
 
     /**
-     * List order: closest expiration first; on the same date, higher urgency first;
-     * then alphabetical by name.
+     * Orden del listado: primero el vencimiento más cercano; a igual fecha, la urgencia mayor;
+     * después, alfabético por nombre.
      */
     public static final Comparator<ExpirationItem> DISPLAY_ORDER =
             Comparator.comparing(ExpirationItem::getExpirationDate)
@@ -26,13 +26,13 @@ public class ExpirationItem {
     private Urgency urgency;
     private String note;
 
-    /** Creates a new item with a freshly generated id. */
+    /** Crea un ítem nuevo con un identificador generado en el momento. */
     public ExpirationItem(String name, LocalDate expirationDate, Category category,
                           Urgency urgency, String note) {
         this(UUID.randomUUID().toString(), name, expirationDate, category, urgency, note);
     }
 
-    /** Rebuilds an existing item, keeping its id. */
+    /** Reconstruye un ítem existente, conservando su identificador. */
     public ExpirationItem(String id, String name, LocalDate expirationDate, Category category,
                           Urgency urgency, String note) {
         this.id = id;
@@ -43,7 +43,7 @@ public class ExpirationItem {
         this.note = note == null ? "" : note;
     }
 
-    /** Days from {@code today} to the expiration date; negative when already expired. */
+    /** Días desde {@code today} hasta el vencimiento; negativo si ya venció. */
     public int getDaysUntilExpiration(LocalDate today) {
         return (int) ChronoUnit.DAYS.between(today, expirationDate);
     }

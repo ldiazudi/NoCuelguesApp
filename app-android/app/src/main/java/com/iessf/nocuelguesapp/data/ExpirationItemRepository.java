@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Stores expiration items on the device as a JSON array inside SharedPreferences.
+ * Guarda los vencimientos en el dispositivo como un arreglo JSON dentro de SharedPreferences.
  */
 public class ExpirationItemRepository implements ExpirationRepository {
 
@@ -43,7 +43,7 @@ public class ExpirationItemRepository implements ExpirationRepository {
                 .getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
-    /** Returns every stored item; display ordering belongs to the application layer. */
+    /** Devuelve todos los ítems guardados; el orden de presentación lo define la capa de aplicación. */
     public List<ExpirationItem> getAll() {
         return readItems();
     }
@@ -58,7 +58,7 @@ public class ExpirationItemRepository implements ExpirationRepository {
         return null;
     }
 
-    /** Adds the item, or replaces the stored one with the same id. */
+    /** Agrega el ítem o reemplaza al guardado con el mismo identificador. */
     public void save(ExpirationItem item) {
         List<ExpirationItem> items = readItems();
         boolean replaced = false;

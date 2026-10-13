@@ -27,7 +27,7 @@
     <dimen name="icon_sm">18dp</dimen>
     <dimen name="icon_md">24dp</dimen>
 
-    <!-- Padding that keeps content centered on a surface drawn with a hard shadow -->
+    <!-- Padding que mantiene centrado el contenido sobre una superficie con sombra dura -->
     <dimen name="field_padding_horizontal">14dp</dimen>
     <dimen name="field_padding_end">18dp</dimen>
     <dimen name="card_padding_end">6.5dp</dimen>

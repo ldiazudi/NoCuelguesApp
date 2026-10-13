@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Use cases shared by the main screen and the form. */
+/** Casos de uso compartidos por la pantalla principal y el formulario. */
 public final class ExpirationService {
     private static final int WEEK_DAYS = 7;
     private final ExpirationRepository repository;
