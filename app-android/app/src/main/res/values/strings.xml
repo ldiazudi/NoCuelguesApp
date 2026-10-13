@@ -90,4 +90,17 @@
 
     <!-- Formats -->
     <string name="date_pattern">dd/MM/yyyy</string>
+    <string name="form_note_optional_label">Nota opcional</string>
+    <string name="form_note_hint">Escribí una nota breve</string>
+    <string name="form_saved">Vencimiento guardado</string>
+    <string name="form_item_missing">Este vencimiento ya no está disponible</string>
+    <string-array name="categorias">
+        <item>@string/category_documents</item>
+        <item>@string/category_licenses</item>
+        <item>@string/category_insurance</item>
+        <item>@string/category_warranties</item>
+        <item>@string/category_health</item>
+        <item>@string/category_subscriptions</item>
+        <item>@string/category_other</item>
+    </string-array>
 </resources>
