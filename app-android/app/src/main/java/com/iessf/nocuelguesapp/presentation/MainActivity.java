@@ -1,5 +1,10 @@
-package com.iessf.nocuelguesapp;
+package com.iessf.nocuelguesapp.presentation;
 
+import com.iessf.nocuelguesapp.R;
+import com.iessf.nocuelguesapp.application.ExpirationService;
+import com.iessf.nocuelguesapp.data.ExpirationItemRepository;
+import com.iessf.nocuelguesapp.data.SampleData;
+import com.iessf.nocuelguesapp.domain.model.ExpirationItem;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +26,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int WEEK_DAYS = 7;
-
-    private ExpirationItemRepository repository;
+    private ExpirationService service;
     private ExpirationItemAdapter adapter;
 
     private View layoutStats;
@@ -45,8 +48,10 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        repository = new ExpirationItemRepository(this);
+        // Composición: conectamos los casos de uso con el almacenamiento existente.
+        ExpirationItemRepository repository = new ExpirationItemRepository(this);
         SampleData.seedIfEmpty(repository);
+        service = new ExpirationService(repository);
 
         layoutStats = findViewById(R.id.layout_stats);
         layoutSort = findViewById(R.id.layout_sort);
@@ -72,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadItems() {
         LocalDate today = LocalDate.now();
-        List<ExpirationItem> items = repository.getAll();
+        List<ExpirationItem> items = service.getAll();
 
         adapter.setItems(items, today);
         updateStats(items, today);
@@ -85,19 +90,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateStats(List<ExpirationItem> items, LocalDate today) {
-        int overdue = 0;
-        int thisWeek = 0;
-        for (ExpirationItem item : items) {
-            int days = item.getDaysUntilExpiration(today);
-            if (days < 0) {
-                overdue++;
-            } else if (days <= WEEK_DAYS) {
-                thisWeek++;
-            }
-        }
-        textStatOverdue.setText(String.valueOf(overdue));
-        textStatWeek.setText(String.valueOf(thisWeek));
-        textStatTotal.setText(String.valueOf(items.size()));
+        ExpirationService.Summary summary = service.summarize(items, today);
+        textStatOverdue.setText(String.valueOf(summary.getOverdue()));
+        textStatWeek.setText(String.valueOf(summary.getThisWeek()));
+        textStatTotal.setText(String.valueOf(summary.getTotal()));
     }
 
     private void addEmptyExamples() {

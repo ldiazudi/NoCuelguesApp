@@ -1,5 +1,7 @@
-package com.iessf.nocuelguesapp;
+package com.iessf.nocuelguesapp.presentation;
 
+import com.iessf.nocuelguesapp.R;
+import com.iessf.nocuelguesapp.domain.model.ExpirationItem;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
@@ -122,11 +124,11 @@ public class ExpirationItemAdapter extends RecyclerView.Adapter<ExpirationItemAd
             textDate.setText(dateLine);
             textName.setText(item.getName());
 
-            textUrgency.setText(item.getUrgency().getLabelRes());
-            textUrgency.setBackgroundResource(item.getUrgency().getBadgeBackgroundRes());
+            textUrgency.setText(ExpirationResources.urgencyLabel(item.getUrgency()));
+            textUrgency.setBackgroundResource(ExpirationResources.urgencyBackground(item.getUrgency()));
 
-            textCategory.setText(item.getCategory().getLabelRes());
-            Drawable categoryIcon = ContextCompat.getDrawable(context, item.getCategory().getIconRes());
+            textCategory.setText(ExpirationResources.categoryLabel(item.getCategory()));
+            Drawable categoryIcon = ContextCompat.getDrawable(context, ExpirationResources.categoryIcon(item.getCategory()));
             if (categoryIcon != null) {
                 categoryIcon.setBounds(0, 0, categoryIconSize, categoryIconSize);
             }
@@ -146,7 +148,7 @@ public class ExpirationItemAdapter extends RecyclerView.Adapter<ExpirationItemAd
                     ? daysUnit
                     : days + " " + daysUnit;
             itemView.setContentDescription(context.getString(R.string.item_content_description,
-                    item.getName(), daysDescription, context.getString(item.getUrgency().getLabelRes())));
+                    item.getName(), daysDescription, context.getString(ExpirationResources.urgencyLabel(item.getUrgency()))));
         }
     }
 }

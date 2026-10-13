@@ -1,17 +1,21 @@
-package com.iessf.nocuelguesapp;
+package com.iessf.nocuelguesapp.data;
 
+import com.iessf.nocuelguesapp.domain.model.Category;
+import com.iessf.nocuelguesapp.domain.model.ExpirationItem;
+import com.iessf.nocuelguesapp.domain.model.Urgency;
+import com.iessf.nocuelguesapp.domain.repository.ExpirationRepository;
 import java.time.LocalDate;
 
 /**
  * TEMPORARY: loads the prototype examples so the list can be tested before the form exists.
  * Delete this class and its call in MainActivity once items can be added from FormActivity.
  */
-final class SampleData {
+public final class SampleData {
 
     private SampleData() {
     }
 
-    static void seedIfEmpty(ExpirationItemRepository repository) {
+    public static void seedIfEmpty(ExpirationRepository repository) {
         if (!repository.getAll().isEmpty()) {
             return;
         }

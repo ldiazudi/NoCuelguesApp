@@ -1,4 +1,4 @@
-package com.iessf.nocuelguesapp;
+package com.iessf.nocuelguesapp.domain.model;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

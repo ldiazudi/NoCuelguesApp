@@ -1,4 +1,9 @@
-package com.iessf.nocuelguesapp;
+package com.iessf.nocuelguesapp.data;
+
+import com.iessf.nocuelguesapp.domain.model.Category;
+import com.iessf.nocuelguesapp.domain.model.ExpirationItem;
+import com.iessf.nocuelguesapp.domain.model.Urgency;
+import com.iessf.nocuelguesapp.domain.repository.ExpirationRepository;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,7 +23,7 @@ import java.util.List;
 /**
  * Stores expiration items on the device as a JSON array inside SharedPreferences.
  */
-public class ExpirationItemRepository {
+public class ExpirationItemRepository implements ExpirationRepository {
 
     private static final String TAG = "ExpirationItemRepo";
     private static final String PREFERENCES_NAME = "expiration_items";
@@ -38,11 +43,9 @@ public class ExpirationItemRepository {
                 .getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
-    /** Returns every stored item, sorted in display order. */
+    /** Returns every stored item; display ordering belongs to the application layer. */
     public List<ExpirationItem> getAll() {
-        List<ExpirationItem> items = readItems();
-        items.sort(ExpirationItem.DISPLAY_ORDER);
-        return items;
+        return readItems();
     }
 
     @Nullable
