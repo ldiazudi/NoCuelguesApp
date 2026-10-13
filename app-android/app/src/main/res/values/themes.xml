@@ -17,11 +17,11 @@
 
     <style name="Theme.NoCuelguesApp" parent="Base.Theme.NoCuelguesApp" />
 
-<!--    <style name="Theme.NoCuelguesApp.Starting" parent="Theme.SplashScreen">
+    <style name="Theme.NoCuelguesApp.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/paper</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo_animated</item>
-        <item name="windowSplashScreenAnimationDuration">900</item>
+        <item name="windowSplashScreenAnimationDuration">1400</item>
         <item name="postSplashScreenTheme">@style/Theme.NoCuelguesApp</item>
-    </style>-->
+    </style>
 
 </resources>

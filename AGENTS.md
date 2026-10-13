@@ -26,8 +26,8 @@ Requisitos de la consigna que no se negocian: al menos dos Activities, español 
 
 | Versión | Incluye |
 |---------|---------|
-| Parcial (15-10) | Pantalla principal con contadores, listado ordenado y estado vacío; formulario de alta, edición y eliminación con confirmación; persistencia; español e inglés; ícono |
-| Final (22-10) | Lo anterior más pantalla de carga (`SplashScreen`), aviso local antes del vencimiento y el recuadro de recordatorio del formulario |
+| Parcial (15-10) | Pantalla principal con contadores, listado ordenado y estado vacío; formulario de alta, edición y eliminación con confirmación; persistencia; español e inglés; ícono; pantalla de carga (`SplashScreen`) |
+| Final (22-10) | Lo anterior más el aviso local antes del vencimiento y el recuadro de recordatorio del formulario |
 
 Fuera de alcance: modo oscuro, cuentas, sincronización en la nube, adjuntos, base de datos.
 
@@ -85,5 +85,5 @@ Estilo neobrutalista: bordes negros gruesos, sombras duras desplazadas sin desen
 
 ## Estado actual
 
-Hecho: pantalla principal, formulario completo (alta, edición, eliminación con confirmación), persistencia, ícono de la app, español e inglés.
-Pendiente para la final: pantalla de carga, notificaciones y recuadro de recordatorio en el formulario.
+Hecho: pantalla principal, formulario completo (alta, edición, eliminación con confirmación), persistencia, ícono de la app, pantalla de carga animada, español e inglés.
+Pendiente para la final: notificaciones y recuadro de recordatorio en el formulario.

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Símbolo del logo a color (brand/logo-kit/color/svg/no-cuelgues-symbol-color.svg) para la pantalla de carga.
+     El sistema recorta el ícono con un círculo de 192dp sobre 288dp. Lo visible del símbolo (cuadrado con borde
+     y sombra) va de 3 a 238 en sus coordenadas: se escala a 0.6 y se centra ese contorno en 144, así ninguna
+     esquina toca el círculo. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="288dp"
+    android:height="288dp"
+    android:viewportWidth="288"
+    android:viewportHeight="288">
+
+    <group
+        android:scaleX="0.6"
+        android:scaleY="0.6"
+        android:translateX="71.7"
+        android:translateY="71.7">
+
+        <!-- Sombra dura del cuadrado -->
+        <path
+            android:fillColor="@color/ink"
+            android:pathData="M50,22 H210 A28,28 0 0 1 238,50 V210 A28,28 0 0 1 210,238 H50 A28,28 0 0 1 22,210 V50 A28,28 0 0 1 50,22 Z" />
+
+        <!-- Cuadrado amarillo -->
+        <path
+            android:fillColor="@color/brand"
+            android:pathData="M36,8 H196 A28,28 0 0 1 224,36 V196 A28,28 0 0 1 196,224 H36 A28,28 0 0 1 8,196 V36 A28,28 0 0 1 36,8 Z"
+            android:strokeWidth="10"
+            android:strokeColor="@color/ink"
+            android:strokeLineJoin="round" />
+
+        <!-- Clavo y gancho -->
+        <path
+            android:fillColor="@color/surface"
+            android:pathData="M107,30 a9,9 0 1 0 18,0 a9,9 0 1 0 -18,0 Z"
+            android:strokeWidth="10"
+            android:strokeColor="@color/ink" />
+        <path
+            android:pathData="M116,39 V60 A15,15 0 1 1 86,60 V54"
+            android:strokeWidth="12"
+            android:strokeColor="@color/ink"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+
+        <!-- Hojas colgadas del gancho; el grupo rota en splash_logo_animated.xml -->
+        <group
+            android:name="sheets"
+            android:pivotX="116"
+            android:pivotY="62">
+
+            <group
+                android:pivotX="116"
+                android:pivotY="80"
+                android:rotation="11">
+                <path
+                    android:fillColor="@color/surface"
+                    android:pathData="M70,80 h92 a6,6 0 0 1 6,6 v112 a6,6 0 0 1 -6,6 h-92 a6,6 0 0 1 -6,-6 v-112 a6,6 0 0 1 6,-6 z"
+                    android:strokeWidth="10"
+                    android:strokeColor="@color/ink"
+                    android:strokeLineJoin="round" />
+            </group>
+
+            <group
+                android:pivotX="116"
+                android:pivotY="80"
+                android:rotation="-9">
+                <path
+                    android:fillColor="@color/surface"
+                    android:pathData="M70,80 h92 a6,6 0 0 1 6,6 v112 a6,6 0 0 1 -6,6 h-92 a6,6 0 0 1 -6,-6 v-112 a6,6 0 0 1 6,-6 z"
+                    android:strokeWidth="10"
+                    android:strokeColor="@color/ink"
+                    android:strokeLineJoin="round" />
+            </group>
+
+            <path
+                android:fillColor="@color/surface"
+                android:pathData="M70,80 h92 a6,6 0 0 1 6,6 v112 a6,6 0 0 1 -6,6 h-92 a6,6 0 0 1 -6,-6 v-112 a6,6 0 0 1 6,-6 z"
+                android:strokeWidth="10"
+                android:strokeColor="@color/ink"
+                android:strokeLineJoin="round" />
+            <path
+                android:fillColor="@color/urgency_high"
+                android:pathData="M64,86 a6,6 0 0 1 6,-6 h92 a6,6 0 0 1 6,6 v26 h-104 z"
+                android:strokeWidth="10"
+                android:strokeColor="@color/ink"
+                android:strokeLineJoin="round" />
+            <path
+                android:pathData="M94,152 l14,14 l30,-32"
+                android:strokeWidth="14"
+                android:strokeColor="@color/ink"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round" />
+        </group>
+    </group>
+</vector>

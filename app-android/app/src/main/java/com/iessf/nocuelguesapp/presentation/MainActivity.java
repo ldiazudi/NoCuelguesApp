@@ -5,7 +5,9 @@ import com.iessf.nocuelguesapp.application.ExpirationService;
 import com.iessf.nocuelguesapp.data.ExpirationItemRepository;
 import com.iessf.nocuelguesapp.domain.model.ExpirationItem;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -14,6 +16,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
+import androidx.core.splashscreen.SplashScreen;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +28,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    /** Duración del balanceo del logo; tiene que coincidir con splash_logo_animated.xml. */
+    private static final long SPLASH_ANIMATION_MS = 1400;
 
     private ExpirationService service;
     private ExpirationItemAdapter adapter;
@@ -39,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Tiene que ir antes de super.onCreate: muestra la pantalla de carga y después aplica el tema normal.
+        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
+        keepSplashUntilAnimationEnds(splashScreen);
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -101,6 +110,19 @@ public class MainActivity extends AppCompatActivity {
             chip.setText(example);
             chipGroup.addView(chip);
         }
+    }
+
+    /**
+     * Android saca la pantalla de carga apenas la app está lista, aunque la animación no haya terminado.
+     * Solo se espera desde Android 12, que es donde el logo se anima; antes se muestra quieto.
+     */
+    private static void keepSplashUntilAnimationEnds(SplashScreen splashScreen) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            return;
+        }
+        long start = SystemClock.uptimeMillis();
+        splashScreen.setKeepOnScreenCondition(
+                () -> SystemClock.uptimeMillis() - start < SPLASH_ANIMATION_MS);
     }
 
     private void openForm(@Nullable String itemId) {
