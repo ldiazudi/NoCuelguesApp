@@ -2,4 +2,8 @@
 <resources>
     <integer name="name_max_length">40</integer>
     <integer name="note_max_length">120</integer>
+    <!-- Milisegundos del balanceo del logo en la pantalla de carga -->
+    <integer name="splash_animation_duration">1400</integer>
+    <!-- Milisegundos que tarda la pantalla de carga en cerrarse en un círculo -->
+    <integer name="splash_close_duration">450</integer>
 </resources>

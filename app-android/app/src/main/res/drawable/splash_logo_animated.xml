@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Balanceo de las hojas del logo en la pantalla de carga: oscilan alrededor del gancho y se frenan.
-     Cada tramo acelera y desacelera como un péndulo. Android 8 a 11 muestra splash_logo sin animación.
-     Si se cambia la duración, actualizar también windowSplashScreenAnimationDuration en themes.xml
-     y SPLASH_ANIMATION_MS en MainActivity. -->
+     Cada tramo acelera y desacelera como un péndulo. Lo reproduce MainActivity sobre layout_splash. -->
 <animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aapt="http://schemas.android.com/aapt"
     android:drawable="@drawable/splash_logo">
@@ -10,7 +8,7 @@
     <target android:name="sheets">
         <aapt:attr name="android:animation">
             <objectAnimator
-                android:duration="1400"
+                android:duration="@integer/splash_animation_duration"
                 android:interpolator="@android:anim/linear_interpolator">
                 <propertyValuesHolder android:propertyName="rotation">
                     <keyframe

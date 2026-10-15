@@ -17,10 +17,11 @@
 
     <style name="Theme.NoCuelguesApp" parent="Base.Theme.NoCuelguesApp" />
 
+    <!-- Pantalla de carga del sistema solo con el fondo: el ícono que permite Android es chico (lo recorta
+         un círculo de 192dp), así que el logo grande lo muestra MainActivity en layout_splash. -->
     <style name="Theme.NoCuelguesApp.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/paper</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo_animated</item>
-        <item name="windowSplashScreenAnimationDuration">1400</item>
+        <item name="windowSplashScreenAnimatedIcon">@android:color/transparent</item>
         <item name="postSplashScreenTheme">@style/Theme.NoCuelguesApp</item>
     </style>
 

@@ -26,6 +26,7 @@
     <dimen name="button_height">56dp</dimen>
     <dimen name="icon_sm">18dp</dimen>
     <dimen name="icon_md">24dp</dimen>
+    <dimen name="splash_logo">240dp</dimen>
 
     <!-- Padding que mantiene centrado el contenido sobre una superficie con sombra dura -->
     <dimen name="field_padding_horizontal">14dp</dimen>

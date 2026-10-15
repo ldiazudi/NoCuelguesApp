@@ -4,12 +4,16 @@ import com.iessf.nocuelguesapp.R;
 import com.iessf.nocuelguesapp.application.ExpirationService;
 import com.iessf.nocuelguesapp.data.ExpirationItemRepository;
 import com.iessf.nocuelguesapp.domain.model.ExpirationItem;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
-import android.os.Build;
+import android.graphics.drawable.Animatable;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.animation.AccelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -29,9 +33,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    /** Duración del balanceo del logo; tiene que coincidir con splash_logo_animated.xml. */
-    private static final long SPLASH_ANIMATION_MS = 1400;
-
     private ExpirationService service;
     private ExpirationItemAdapter adapter;
 
@@ -47,11 +48,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         // Tiene que ir antes de super.onCreate: muestra la pantalla de carga y después aplica el tema normal.
         SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
-        keepSplashUntilAnimationEnds(splashScreen);
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.layout_content), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -73,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button_new).setOnClickListener(v -> openForm(null));
 
         addEmptyExamples();
+        splashScreen.setOnExitAnimationListener(splashView -> {
+            playSplash();
+            splashView.remove();
+        });
     }
 
     @Override
@@ -113,16 +117,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Android saca la pantalla de carga apenas la app está lista, aunque la animación no haya terminado.
-     * Solo se espera desde Android 12, que es donde el logo se anima; antes se muestra quieto.
+     * Muestra el logo grande balanceándose y, al terminar, apaga la capa como un televisor viejo.
+     * Se llama cuando el sistema retira su pantalla de carga, que es del mismo color: así la animación
+     * se ve desde el principio. Si el sistema no la mostró (por ejemplo al rotar), no se llama.
      */
-    private static void keepSplashUntilAnimationEnds(SplashScreen splashScreen) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-            return;
-        }
-        long start = SystemClock.uptimeMillis();
-        splashScreen.setKeepOnScreenCondition(
-                () -> SystemClock.uptimeMillis() - start < SPLASH_ANIMATION_MS);
+    private void playSplash() {
+        View layoutSplash = findViewById(R.id.layout_splash);
+        View layoutSplashContent = findViewById(R.id.layout_splash_content);
+        ImageView imageLogo = findViewById(R.id.image_splash_logo);
+        layoutSplash.setVisibility(View.VISIBLE);
+        ((Animatable) imageLogo.getDrawable()).start();
+
+        // El contenido se recorta con un círculo que se achica hasta el centro; afuera se ve el fondo negro.
+        int centerX = layoutSplashContent.getWidth() / 2;
+        int centerY = layoutSplashContent.getHeight() / 2;
+        float fullRadius = (float) Math.hypot(centerX, centerY);
+        Animator turnOff = ViewAnimationUtils.createCircularReveal(
+                layoutSplashContent, centerX, centerY, fullRadius, 0f);
+        turnOff.setStartDelay(getResources().getInteger(R.integer.splash_animation_duration));
+        turnOff.setDuration(getResources().getInteger(R.integer.splash_close_duration));
+        turnOff.setInterpolator(new AccelerateInterpolator());
+        turnOff.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                layoutSplashContent.setVisibility(View.INVISIBLE);
+                hideSplash(layoutSplash);
+            }
+        });
+        turnOff.start();
+    }
+
+    /** Deja un instante la pantalla en negro y después muestra la pantalla principal. */
+    private void hideSplash(View layoutSplash) {
+        int shortDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        layoutSplash.animate()
+                .alpha(0f)
+                .setStartDelay(shortDuration)
+                .setDuration(shortDuration)
+                .withEndAction(() -> layoutSplash.setVisibility(View.GONE));
     }
 
     private void openForm(@Nullable String itemId) {
