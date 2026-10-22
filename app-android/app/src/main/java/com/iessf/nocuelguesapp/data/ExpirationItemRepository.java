@@ -115,16 +115,26 @@ public class ExpirationItemRepository implements ExpirationRepository {
         object.put(FIELD_CATEGORY, item.getCategory().name());
         object.put(FIELD_URGENCY, item.getUrgency().name());
         object.put(FIELD_NOTE, item.getNote());
+        object.put("reminderEnabled", item.isReminderEnabled());
+        object.put("reminderDaysBefore", item.getReminderDaysBefore());
+        object.put("reminderHour", item.getReminderHour());
+        object.put("reminderMinute", item.getReminderMinute());
         return object;
     }
 
     private static ExpirationItem fromJson(JSONObject object) throws JSONException {
-        return new ExpirationItem(
+        ExpirationItem item = new ExpirationItem(
                 object.getString(FIELD_ID),
                 object.getString(FIELD_NAME),
                 LocalDate.parse(object.getString(FIELD_EXPIRATION_DATE)),
                 Category.valueOf(object.getString(FIELD_CATEGORY)),
                 Urgency.valueOf(object.getString(FIELD_URGENCY)),
                 object.optString(FIELD_NOTE, ""));
+        // Los registros anteriores siguen funcionando sin activar avisos inesperados.
+        item.setReminder(object.optBoolean("reminderEnabled", false),
+                Math.max(0, Math.min(365, object.optInt("reminderDaysBefore", 1))),
+                Math.max(0, Math.min(23, object.optInt("reminderHour", 9))),
+                Math.max(0, Math.min(59, object.optInt("reminderMinute", 0))));
+        return item;
     }
 }

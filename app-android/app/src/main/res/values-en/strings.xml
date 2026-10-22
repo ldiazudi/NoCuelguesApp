@@ -89,4 +89,18 @@
 
     <!-- Formatos -->
     <string name="date_pattern">MM/dd/yyyy</string>
+    <string name="reminder_enabled">Remind me about this expiration</string>
+    <string name="reminder_days">Days before (0 to 365)</string>
+    <string name="reminder_time">Reminder time</string>
+    <string name="reminder_help">You will receive one reminder. 0 means the same day. If the chosen time has passed, we will remind you after saving. Android may delay it to save battery.</string>
+    <string name="reminder_invalid_days">Enter a number between 0 and 365.</string>
+    <string name="reminder_expired">This date has expired. Change it or turn the reminder off.</string>
+    <string name="reminder_saved_blocked">Saved. Reminders are blocked: enable them in notification settings.</string>
+    <string name="reminder_settings">Enable reminders in settings</string>
+    <string name="reminder_channel">Expiration reminders</string>
+    <string name="reminder_due_today">Expires today.</string>
+    <plurals name="reminder_due_in">
+        <item quantity="one">Expires in %d day.</item>
+        <item quantity="other">Expires in %d days.</item>
+    </plurals>
 </resources>

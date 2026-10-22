@@ -25,6 +25,11 @@ public class ExpirationItem {
     private Category category;
     private Urgency urgency;
     private String note;
+    private boolean reminderEnabled;
+    private int reminderDaysBefore = 1;
+    private int reminderHour = 9;
+    private int reminderMinute;
+
 
     /** Crea un ítem nuevo con un identificador generado en el momento. */
     public ExpirationItem(String name, LocalDate expirationDate, Category category,
@@ -54,6 +59,33 @@ public class ExpirationItem {
 
     public boolean hasNote() {
         return !note.isEmpty();
+    }
+
+    public boolean isReminderEnabled() {
+        return reminderEnabled;
+    }
+
+    public int getReminderDaysBefore() {
+        return reminderDaysBefore;
+    }
+
+    public int getReminderHour() {
+        return reminderHour;
+    }
+
+    public int getReminderMinute() {
+        return reminderMinute;
+    }
+
+    public void setReminder(boolean enabled, int daysBefore, int hour, int minute) {
+        if (daysBefore < 0 || daysBefore > 365 || hour < 0 || hour > 23
+                || minute < 0 || minute > 59) {
+            throw new IllegalArgumentException("Invalid reminder time");
+        }
+        reminderEnabled = enabled;
+        reminderDaysBefore = daysBefore;
+        reminderHour = hour;
+        reminderMinute = minute;
     }
 
     public String getId() {
