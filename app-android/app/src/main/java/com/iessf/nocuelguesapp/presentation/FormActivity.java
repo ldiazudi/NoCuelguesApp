@@ -1,6 +1,19 @@
 package com.iessf.nocuelguesapp.presentation;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.provider.Settings;
+import android.text.format.DateFormat;
+import android.widget.CheckBox;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import com.iessf.nocuelguesapp.notifications.ReminderScheduler;
+import java.time.LocalTime;
+import java.time.format.FormatStyle;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -48,6 +61,20 @@ public class FormActivity extends AppCompatActivity {
     private static final String STATE_SELECTED_CATEGORY = "selected_category";
     private static final Category DEFAULT_CATEGORY = Category.OTHER;
 
+    private ReminderScheduler reminderScheduler;
+    private CheckBox inputReminderEnabled;
+    private EditText inputReminderDays;
+    private TextView inputReminderTime;
+    private TextView textReminderError;
+    private int reminderHour = 9;
+    private int reminderMinute;
+    private final ActivityResultLauncher<String> notificationPermission =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
+                reminderScheduler.rescheduleAll();
+                showSavedMessage();
+                finish();
+            });
+
     private ExpirationService service;
     private String itemId;
     private LocalDate selectedDate;
@@ -78,6 +105,7 @@ public class FormActivity extends AppCompatActivity {
         });
 
         service = new ExpirationService(new ExpirationItemRepository(this));
+        reminderScheduler = new ReminderScheduler(this);
         itemId = getIntent().getStringExtra(EXTRA_ITEM_ID);
         nameMaxLength = getResources().getInteger(R.integer.name_max_length);
         noteMaxLength = getResources().getInteger(R.integer.note_max_length);
@@ -92,6 +120,24 @@ public class FormActivity extends AppCompatActivity {
         radioGroupUrgency = findViewById(R.id.radio_group_urgency);
         inputNote = findViewById(R.id.input_note);
         textNoteCounter = findViewById(R.id.text_note_counter);
+
+        inputReminderEnabled = findViewById(R.id.input_reminder_enabled);
+        inputReminderDays = findViewById(R.id.input_reminder_days);
+        inputReminderTime = findViewById(R.id.input_reminder_time);
+        textReminderError = findViewById(R.id.text_reminder_error);
+        inputReminderEnabled.setOnCheckedChangeListener((button, checked) -> showReminderFields());
+        inputReminderTime.setOnClickListener(v -> new TimePickerDialog(this,
+                (picker, hour, minute) -> {
+                    reminderHour = hour;
+                    reminderMinute = minute;
+                    showReminderFields();
+                }, reminderHour, reminderMinute, DateFormat.is24HourFormat(this)).show());
+        findViewById(R.id.button_notification_settings).setOnClickListener(v -> {
+            Intent settings = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
+            settings.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+            settings.putExtra(Settings.EXTRA_CHANNEL_ID, ReminderScheduler.CHANNEL_ID);
+            startActivity(settings);
+        });
 
         Button buttonSave = findViewById(R.id.button_save);
         centerIconWithText(buttonSave);
@@ -124,6 +170,8 @@ public class FormActivity extends AppCompatActivity {
             }
         }
         if (savedInstanceState != null) {
+            reminderHour = savedInstanceState.getInt("reminder_hour", 9);
+            reminderMinute = savedInstanceState.getInt("reminder_minute", 0);
             String savedDate = savedInstanceState.getString(STATE_SELECTED_DATE);
             if (savedDate != null) {
                 selectedDate = LocalDate.parse(savedDate);
@@ -133,17 +181,22 @@ public class FormActivity extends AppCompatActivity {
         updateNameCounter();
         updateNoteCounter();
         showDate();
+        showReminderFields();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         showDate();
+        showReminderFields();
+        reminderScheduler.rescheduleAll();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putInt("reminder_hour", reminderHour);
+        outState.putInt("reminder_minute", reminderMinute);
         if (selectedDate != null) {
             outState.putString(STATE_SELECTED_DATE, selectedDate.toString());
         }
@@ -172,6 +225,7 @@ public class FormActivity extends AppCompatActivity {
         content.findViewById(R.id.button_cancel).setOnClickListener(v -> dialog.dismiss());
         content.findViewById(R.id.button_confirm_delete).setOnClickListener(v -> {
             dialog.dismiss();
+            reminderScheduler.delete(itemId);
             service.delete(itemId);
             finish();
         });
@@ -181,6 +235,10 @@ public class FormActivity extends AppCompatActivity {
     }
 
     private void fillFields(ExpirationItem item) {
+        inputReminderEnabled.setChecked(item.isReminderEnabled());
+        inputReminderDays.setText(String.valueOf(item.getReminderDaysBefore()));
+        reminderHour = item.getReminderHour();
+        reminderMinute = item.getReminderMinute();
         inputName.setText(item.getName());
         inputNote.setText(item.getNote());
         selectedDate = item.getExpirationDate();
@@ -224,10 +282,57 @@ public class FormActivity extends AppCompatActivity {
         ExpirationItem item = itemId == null
                 ? new ExpirationItem(name, selectedDate, category, urgency, note)
                 : new ExpirationItem(itemId, name, selectedDate, category, urgency, note);
+        int daysBefore;
+        try {
+            daysBefore = Integer.parseInt(inputReminderDays.getText().toString().trim());
+        } catch (NumberFormatException ignored) {
+            daysBefore = -1;
+        }
+        if (daysBefore < 0 || daysBefore > 365) {
+            if (inputReminderEnabled.isChecked()) {
+                showReminderError(R.string.reminder_invalid_days);
+                inputReminderDays.requestFocus();
+                return;
+            }
+            daysBefore = 1;
+        }
+        item.setReminder(inputReminderEnabled.isChecked(), daysBefore, reminderHour, reminderMinute);
+        if (item.isReminderEnabled() && item.isOverdue(LocalDate.now())) {
+            showReminderError(R.string.reminder_expired);
+            return;
+        }
+        textReminderError.setVisibility(View.GONE);
+        reminderScheduler.cancel(item.getId());
         service.save(item);
-
-        Toast.makeText(this, R.string.form_saved, Toast.LENGTH_SHORT).show();
+        reminderScheduler.schedule(item);
+        if (item.isReminderEnabled() && Build.VERSION.SDK_INT >= 33
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+            notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS);
+            return;
+        }
+        showSavedMessage();
         finish();
+    }
+
+    private void showSavedMessage() {
+        int message = inputReminderEnabled.isChecked() && !reminderScheduler.canNotify()
+                ? R.string.reminder_saved_blocked : R.string.form_saved;
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    private void showReminderFields() {
+        boolean enabled = inputReminderEnabled.isChecked();
+        findViewById(R.id.layout_reminder_options).setVisibility(enabled ? View.VISIBLE : View.GONE);
+        inputReminderTime.setText(LocalTime.of(reminderHour, reminderMinute)
+                .format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));
+        findViewById(R.id.button_notification_settings)
+                .setVisibility(enabled && !reminderScheduler.canNotify() ? View.VISIBLE : View.GONE);
+    }
+
+    private void showReminderError(int message) {
+        textReminderError.setText(message);
+        textReminderError.setVisibility(View.VISIBLE);
     }
 
     private void showDate() {

@@ -4,6 +4,7 @@ import com.iessf.nocuelguesapp.R;
 import com.iessf.nocuelguesapp.application.ExpirationService;
 import com.iessf.nocuelguesapp.data.ExpirationItemRepository;
 import com.iessf.nocuelguesapp.domain.model.ExpirationItem;
+import com.iessf.nocuelguesapp.notifications.ReminderScheduler;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadItems();
+        new ReminderScheduler(this).rescheduleAll();
     }
 
     private void loadItems() {
