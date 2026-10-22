@@ -42,6 +42,7 @@ Paquete `com.iessf.nocuelguesapp`, organizado en capas. Cada capa solo conoce a 
 | `data` | `ExpirationItemRepository` | Implementa el contrato con `SharedPreferences` + JSON (`org.json`) |
 | `application` | `ExpirationService` | Lógica de la app: orden, resumen, alta, baja, búsqueda |
 | `presentation` | Activities, adapter, `ExpirationResources` | Pantallas. `ExpirationResources` traduce enums a textos, íconos y fondos |
+| `notifications` | `ReminderScheduler`, `ReminderReceiver`, `ReminderRestoreReceiver` | Avisos con `AlarmManager`. Cuándo avisar lo decide `ReminderPolicy` (en `application`, con test) |
 
 - Las Activities usan `ExpirationService`, nunca el repositorio directo.
 - La lógica que se pueda probar sin Android va en `application` y lleva test en `app/src/test/` (ver `ExpirationServiceTest`).
@@ -61,6 +62,7 @@ Paquete `com.iessf.nocuelguesapp`, organizado en capas. Cada capa solo conoce a 
 | `text_` | `TextView` de solo lectura |
 | `input_` | Campo editable o seleccionable (`EditText`, campo de fecha) |
 | `button_` | Botones e `ImageButton` |
+| `image_` | `ImageView` |
 | `layout_` | Contenedores |
 | `list_` | `RecyclerView` |
 | `chip_`, `chip_group_` | `Chip` y `ChipGroup` |
@@ -85,5 +87,5 @@ Estilo neobrutalista: bordes negros gruesos, sombras duras desplazadas sin desen
 
 ## Estado actual
 
-Hecho: pantalla principal, formulario completo (alta, edición, eliminación con confirmación), persistencia, ícono de la app, pantalla de carga animada, español e inglés.
-Pendiente para la final: notificaciones y recuadro de recordatorio en el formulario.
+Hecho: pantalla principal, formulario completo (alta, edición, eliminación con confirmación), persistencia, ícono de la app, pantalla de carga animada, español e inglés, avisos locales con recuadro de recordatorio configurable (días de anticipo y hora).
+Pendiente: presentación (29-10).

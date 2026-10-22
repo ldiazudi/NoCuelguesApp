@@ -21,6 +21,9 @@ import java.time.ZoneId;
 public final class ReminderScheduler {
     public static final String CHANNEL_ID = "expiration_reminders";
     public static final String EXTRA_ITEM_ID = "reminder_item_id";
+    /** Guarda, por ítem, el momento del último aviso enviado, para no repetirlo. */
+    private static final String DELIVERED_PREFERENCES_NAME = "delivered_reminders";
+
     private final Context context;
     private final AlarmManager alarms;
     private final SharedPreferences delivered;
@@ -28,7 +31,7 @@ public final class ReminderScheduler {
     public ReminderScheduler(Context context) {
         this.context = context.getApplicationContext();
         alarms = this.context.getSystemService(AlarmManager.class);
-        delivered = this.context.getSharedPreferences("delivered_reminders", Context.MODE_PRIVATE);
+        delivered = this.context.getSharedPreferences(DELIVERED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
                 context.getString(R.string.reminder_channel), NotificationManager.IMPORTANCE_DEFAULT);
         this.context.getSystemService(NotificationManager.class).createNotificationChannel(channel);

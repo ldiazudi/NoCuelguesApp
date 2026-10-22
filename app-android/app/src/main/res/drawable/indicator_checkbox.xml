@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Casilla neobrutalista: cuadrado con borde y sombra dura; marcada, amarilla con tilde.
+     Se usa como drawableEnd de un CheckBox sin el botón del sistema (android:button="@null"). -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+        <layer-list>
+            <item
+                android:left="@dimen/shadow_sm"
+                android:top="@dimen/shadow_sm">
+                <shape android:shape="rectangle">
+                    <size
+                        android:width="@dimen/icon_md"
+                        android:height="@dimen/icon_md" />
+                    <solid android:color="@color/ink" />
+                    <corners android:radius="@dimen/radius_xs" />
+                </shape>
+            </item>
+            <item
+                android:bottom="@dimen/shadow_sm"
+                android:right="@dimen/shadow_sm">
+                <shape android:shape="rectangle">
+                    <size
+                        android:width="@dimen/icon_md"
+                        android:height="@dimen/icon_md" />
+                    <solid android:color="@color/brand" />
+                    <stroke
+                        android:width="@dimen/stroke"
+                        android:color="@color/ink" />
+                    <corners android:radius="@dimen/radius_xs" />
+                </shape>
+            </item>
+            <item
+                android:width="@dimen/icon_sm"
+                android:height="@dimen/icon_sm"
+                android:bottom="@dimen/shadow_sm"
+                android:drawable="@drawable/ic_check"
+                android:gravity="center"
+                android:right="@dimen/shadow_sm" />
+        </layer-list>
+    </item>
+    <item>
+        <layer-list>
+            <item
+                android:left="@dimen/shadow_sm"
+                android:top="@dimen/shadow_sm">
+                <shape android:shape="rectangle">
+                    <size
+                        android:width="@dimen/icon_md"
+                        android:height="@dimen/icon_md" />
+                    <solid android:color="@color/ink" />
+                    <corners android:radius="@dimen/radius_xs" />
+                </shape>
+            </item>
+            <item
+                android:bottom="@dimen/shadow_sm"
+                android:right="@dimen/shadow_sm">
+                <shape android:shape="rectangle">
+                    <size
+                        android:width="@dimen/icon_md"
+                        android:height="@dimen/icon_md" />
+                    <solid android:color="@color/surface" />
+                    <stroke
+                        android:width="@dimen/stroke"
+                        android:color="@color/ink" />
+                    <corners android:radius="@dimen/radius_xs" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>

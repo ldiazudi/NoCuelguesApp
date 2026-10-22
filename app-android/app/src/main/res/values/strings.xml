@@ -58,12 +58,21 @@
         <item quantity="one">Venció hace %d día</item>
         <item quantity="other">Venció hace %d días</item>
     </plurals>
-    <string name="notice_scheduled">Te vamos a avisar %1$d días antes, el %2$s.</string>
-    <string name="notice_not_scheduled">La fecha está muy cerca: no se programa un aviso anticipado.</string>
     <string name="error_name_required">Ingresá un nombre</string>
     <string name="error_date_required">La fecha es obligatoria</string>
     <string name="form_saved">Vencimiento guardado</string>
     <string name="form_item_missing">Este vencimiento ya no está disponible</string>
+
+    <!-- Recordatorio (formulario y notificación) -->
+    <string name="reminder_enabled">Recordarme este vencimiento</string>
+    <string name="reminder_days">Días antes</string>
+    <string name="reminder_time">Hora del aviso</string>
+    <string name="reminder_help">Recibís un solo aviso, de 0 (el mismo día) a 365 días antes. Si la hora ya pasó, te avisamos al guardar. Android puede demorarlo unos minutos para ahorrar batería.</string>
+    <string name="reminder_invalid_days">Ingresá un número entre 0 y 365</string>
+    <string name="reminder_expired">La fecha ya venció. Cambiala o desactivá el recordatorio.</string>
+    <string name="reminder_saved_blocked">Guardado. Los avisos están bloqueados: habilitalos en los ajustes de notificaciones.</string>
+    <string name="reminder_settings">Habilitar avisos en ajustes</string>
+    <string name="reminder_channel">Avisos de vencimientos</string>
 
     <!-- Categorías -->
     <string name="category_documents">Documentos</string>
@@ -92,18 +101,4 @@
 
     <!-- Formatos -->
     <string name="date_pattern">dd/MM/yyyy</string>
-    <string name="reminder_enabled">Recordarme este vencimiento</string>
-    <string name="reminder_days">Días antes (0 a 365)</string>
-    <string name="reminder_time">Hora del aviso</string>
-    <string name="reminder_help">Recibirás un aviso. 0 significa el mismo día. Si la hora elegida ya pasó, te avisaremos al guardar. Android puede demorar el aviso por ahorro de batería.</string>
-    <string name="reminder_invalid_days">Ingresá un número entre 0 y 365.</string>
-    <string name="reminder_expired">La fecha ya venció. Cambiala o desactivá el recordatorio.</string>
-    <string name="reminder_saved_blocked">Guardado. Los avisos están bloqueados: habilitalos en los ajustes de notificaciones.</string>
-    <string name="reminder_settings">Habilitar avisos en ajustes</string>
-    <string name="reminder_channel">Avisos de vencimientos</string>
-    <string name="reminder_due_today">Vence hoy.</string>
-    <plurals name="reminder_due_in">
-        <item quantity="one">Vence en %d día.</item>
-        <item quantity="other">Vence en %d días.</item>
-    </plurals>
 </resources>

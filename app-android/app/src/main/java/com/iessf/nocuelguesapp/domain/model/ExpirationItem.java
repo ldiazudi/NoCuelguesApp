@@ -19,6 +19,12 @@ public class ExpirationItem {
                     .thenComparing(ExpirationItem::getUrgency)
                     .thenComparing(ExpirationItem::getName, String.CASE_INSENSITIVE_ORDER);
 
+    /** Máximo de días de anticipo que se puede pedir para el aviso. */
+    public static final int MAX_REMINDER_DAYS_BEFORE = 365;
+    public static final int DEFAULT_REMINDER_DAYS_BEFORE = 1;
+    public static final int DEFAULT_REMINDER_HOUR = 9;
+    public static final int DEFAULT_REMINDER_MINUTE = 0;
+
     private final String id;
     private String name;
     private LocalDate expirationDate;
@@ -26,10 +32,9 @@ public class ExpirationItem {
     private Urgency urgency;
     private String note;
     private boolean reminderEnabled;
-    private int reminderDaysBefore = 1;
-    private int reminderHour = 9;
-    private int reminderMinute;
-
+    private int reminderDaysBefore = DEFAULT_REMINDER_DAYS_BEFORE;
+    private int reminderHour = DEFAULT_REMINDER_HOUR;
+    private int reminderMinute = DEFAULT_REMINDER_MINUTE;
 
     /** Crea un ítem nuevo con un identificador generado en el momento. */
     public ExpirationItem(String name, LocalDate expirationDate, Category category,
@@ -77,8 +82,9 @@ public class ExpirationItem {
         return reminderMinute;
     }
 
+    /** Configura el aviso; rechaza días fuera de 0..MAX_REMINDER_DAYS_BEFORE o una hora inexistente. */
     public void setReminder(boolean enabled, int daysBefore, int hour, int minute) {
-        if (daysBefore < 0 || daysBefore > 365 || hour < 0 || hour > 23
+        if (daysBefore < 0 || daysBefore > MAX_REMINDER_DAYS_BEFORE || hour < 0 || hour > 23
                 || minute < 0 || minute > 59) {
             throw new IllegalArgumentException("Invalid reminder time");
         }

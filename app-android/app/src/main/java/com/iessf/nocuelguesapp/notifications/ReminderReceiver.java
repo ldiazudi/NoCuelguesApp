@@ -42,11 +42,11 @@ public class ReminderReceiver extends BroadcastReceiver {
         PendingIntent open = TaskStackBuilder.create(context).addNextIntentWithParentStack(openItem)
                 .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         int days = item.getDaysUntilExpiration(now.toLocalDate());
-        String message = days == 0 ? context.getString(R.string.reminder_due_today)
-                : context.getResources().getQuantityString(R.plurals.reminder_due_in, days, days);
+        String message = days == 0 ? context.getString(R.string.form_due_today)
+                : context.getResources().getQuantityString(R.plurals.form_days_left, days, days);
         NotificationCompat.Builder notification = new NotificationCompat.Builder(context,
                 ReminderScheduler.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_event_available)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(item.getName())
                 .setContentText(message)
                 .setContentIntent(open)

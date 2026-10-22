@@ -2,6 +2,8 @@
 <resources>
     <integer name="name_max_length">40</integer>
     <integer name="note_max_length">120</integer>
+    <!-- Dígitos del campo de días de anticipo (hasta ExpirationItem.MAX_REMINDER_DAYS_BEFORE) -->
+    <integer name="reminder_days_max_length">3</integer>
     <!-- Milisegundos del balanceo del logo en la pantalla de carga -->
     <integer name="splash_animation_duration">1400</integer>
     <!-- Milisegundos que tarda la pantalla de carga en cerrarse en un círculo -->

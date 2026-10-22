@@ -5,29 +5,26 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
-import android.provider.Settings;
-import android.text.format.DateFormat;
-import android.widget.CheckBox;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import com.iessf.nocuelguesapp.notifications.ReminderScheduler;
-import java.time.LocalTime;
-import java.time.format.FormatStyle;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -45,9 +42,12 @@ import com.iessf.nocuelguesapp.data.ExpirationItemRepository;
 import com.iessf.nocuelguesapp.domain.model.Category;
 import com.iessf.nocuelguesapp.domain.model.ExpirationItem;
 import com.iessf.nocuelguesapp.domain.model.Urgency;
+import com.iessf.nocuelguesapp.notifications.ReminderScheduler;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
 
 /**
@@ -59,15 +59,14 @@ public class FormActivity extends AppCompatActivity {
     public static final String EXTRA_ITEM_ID = "expiration_item_id";
     private static final String STATE_SELECTED_DATE = "selected_date";
     private static final String STATE_SELECTED_CATEGORY = "selected_category";
+    private static final String STATE_REMINDER_HOUR = "reminder_hour";
+    private static final String STATE_REMINDER_MINUTE = "reminder_minute";
     private static final Category DEFAULT_CATEGORY = Category.OTHER;
 
+    private ExpirationService service;
     private ReminderScheduler reminderScheduler;
-    private CheckBox inputReminderEnabled;
-    private EditText inputReminderDays;
-    private TextView inputReminderTime;
-    private TextView textReminderError;
-    private int reminderHour = 9;
-    private int reminderMinute;
+
+    /** Se pide el permiso de notificar después de guardar; al responder, se reprograma y se cierra. */
     private final ActivityResultLauncher<String> notificationPermission =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
                 reminderScheduler.rescheduleAll();
@@ -75,11 +74,12 @@ public class FormActivity extends AppCompatActivity {
                 finish();
             });
 
-    private ExpirationService service;
     private String itemId;
     private LocalDate selectedDate;
     private int nameMaxLength;
     private int noteMaxLength;
+    private int reminderHour = ExpirationItem.DEFAULT_REMINDER_HOUR;
+    private int reminderMinute = ExpirationItem.DEFAULT_REMINDER_MINUTE;
 
     private EditText inputName;
     private TextView textNameCounter;
@@ -91,6 +91,10 @@ public class FormActivity extends AppCompatActivity {
     private RadioGroup radioGroupUrgency;
     private EditText inputNote;
     private TextView textNoteCounter;
+    private CheckBox inputReminderEnabled;
+    private EditText inputReminderDays;
+    private TextView inputReminderTime;
+    private TextView textReminderError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +129,7 @@ public class FormActivity extends AppCompatActivity {
         inputReminderDays = findViewById(R.id.input_reminder_days);
         inputReminderTime = findViewById(R.id.input_reminder_time);
         textReminderError = findViewById(R.id.text_reminder_error);
+        inputReminderDays.setText(String.valueOf(ExpirationItem.DEFAULT_REMINDER_DAYS_BEFORE));
         inputReminderEnabled.setOnCheckedChangeListener((button, checked) -> showReminderFields());
         inputReminderTime.setOnClickListener(v -> new TimePickerDialog(this,
                 (picker, hour, minute) -> {
@@ -170,8 +175,8 @@ public class FormActivity extends AppCompatActivity {
             }
         }
         if (savedInstanceState != null) {
-            reminderHour = savedInstanceState.getInt("reminder_hour", 9);
-            reminderMinute = savedInstanceState.getInt("reminder_minute", 0);
+            reminderHour = savedInstanceState.getInt(STATE_REMINDER_HOUR, reminderHour);
+            reminderMinute = savedInstanceState.getInt(STATE_REMINDER_MINUTE, reminderMinute);
             String savedDate = savedInstanceState.getString(STATE_SELECTED_DATE);
             if (savedDate != null) {
                 selectedDate = LocalDate.parse(savedDate);
@@ -195,8 +200,8 @@ public class FormActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("reminder_hour", reminderHour);
-        outState.putInt("reminder_minute", reminderMinute);
+        outState.putInt(STATE_REMINDER_HOUR, reminderHour);
+        outState.putInt(STATE_REMINDER_MINUTE, reminderMinute);
         if (selectedDate != null) {
             outState.putString(STATE_SELECTED_DATE, selectedDate.toString());
         }
@@ -288,13 +293,14 @@ public class FormActivity extends AppCompatActivity {
         } catch (NumberFormatException ignored) {
             daysBefore = -1;
         }
-        if (daysBefore < 0 || daysBefore > 365) {
+        if (daysBefore < 0 || daysBefore > ExpirationItem.MAX_REMINDER_DAYS_BEFORE) {
             if (inputReminderEnabled.isChecked()) {
                 showReminderError(R.string.reminder_invalid_days);
                 inputReminderDays.requestFocus();
                 return;
             }
-            daysBefore = 1;
+            // Con el aviso apagado, el valor del campo no importa: se guarda el de por defecto.
+            daysBefore = ExpirationItem.DEFAULT_REMINDER_DAYS_BEFORE;
         }
         item.setReminder(inputReminderEnabled.isChecked(), daysBefore, reminderHour, reminderMinute);
         if (item.isReminderEnabled() && item.isOverdue(LocalDate.now())) {

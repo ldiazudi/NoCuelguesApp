@@ -35,6 +35,10 @@ public class ExpirationItemRepository implements ExpirationRepository {
     private static final String FIELD_CATEGORY = "category";
     private static final String FIELD_URGENCY = "urgency";
     private static final String FIELD_NOTE = "note";
+    private static final String FIELD_REMINDER_ENABLED = "reminderEnabled";
+    private static final String FIELD_REMINDER_DAYS_BEFORE = "reminderDaysBefore";
+    private static final String FIELD_REMINDER_HOUR = "reminderHour";
+    private static final String FIELD_REMINDER_MINUTE = "reminderMinute";
 
     private final SharedPreferences preferences;
 
@@ -115,10 +119,10 @@ public class ExpirationItemRepository implements ExpirationRepository {
         object.put(FIELD_CATEGORY, item.getCategory().name());
         object.put(FIELD_URGENCY, item.getUrgency().name());
         object.put(FIELD_NOTE, item.getNote());
-        object.put("reminderEnabled", item.isReminderEnabled());
-        object.put("reminderDaysBefore", item.getReminderDaysBefore());
-        object.put("reminderHour", item.getReminderHour());
-        object.put("reminderMinute", item.getReminderMinute());
+        object.put(FIELD_REMINDER_ENABLED, item.isReminderEnabled());
+        object.put(FIELD_REMINDER_DAYS_BEFORE, item.getReminderDaysBefore());
+        object.put(FIELD_REMINDER_HOUR, item.getReminderHour());
+        object.put(FIELD_REMINDER_MINUTE, item.getReminderMinute());
         return object;
     }
 
@@ -130,11 +134,12 @@ public class ExpirationItemRepository implements ExpirationRepository {
                 Category.valueOf(object.getString(FIELD_CATEGORY)),
                 Urgency.valueOf(object.getString(FIELD_URGENCY)),
                 object.optString(FIELD_NOTE, ""));
-        // Los registros anteriores siguen funcionando sin activar avisos inesperados.
-        item.setReminder(object.optBoolean("reminderEnabled", false),
-                Math.max(0, Math.min(365, object.optInt("reminderDaysBefore", 1))),
-                Math.max(0, Math.min(23, object.optInt("reminderHour", 9))),
-                Math.max(0, Math.min(59, object.optInt("reminderMinute", 0))));
+        // Los ítems guardados antes de que existieran los avisos no tienen estos campos:
+        // quedan con el aviso apagado para no mandar notificaciones que nadie pidió.
+        item.setReminder(object.optBoolean(FIELD_REMINDER_ENABLED, false),
+                object.optInt(FIELD_REMINDER_DAYS_BEFORE, ExpirationItem.DEFAULT_REMINDER_DAYS_BEFORE),
+                object.optInt(FIELD_REMINDER_HOUR, ExpirationItem.DEFAULT_REMINDER_HOUR),
+                object.optInt(FIELD_REMINDER_MINUTE, ExpirationItem.DEFAULT_REMINDER_MINUTE));
         return item;
     }
 }

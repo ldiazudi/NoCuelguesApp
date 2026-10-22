@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Silueta del logo (la misma de ic_launcher_monochrome) para el ícono chico de la notificación.
+     Android solo usa la transparencia de este ícono y lo pinta del color del sistema. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="216"
+    android:viewportHeight="216">
+    <group
+        android:translateX="-8"
+        android:translateY="-6">
+        <path
+            android:pathData="M107,30 a9,9 0 1 0 18,0 a9,9 0 1 0 -18,0z"
+            android:strokeWidth="10"
+            android:strokeColor="@android:color/white"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+        <path
+            android:pathData="M116,39 V60 A15,15 0 1 1 86,60 V54"
+            android:strokeWidth="12"
+            android:strokeColor="@android:color/white"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+        <group
+            android:pivotX="116"
+            android:pivotY="80"
+            android:rotation="11">
+            <path
+                android:pathData="M70,80 h92 a6,6 0 0 1 6,6 v112 a6,6 0 0 1 -6,6 h-92 a6,6 0 0 1 -6,-6 v-112 a6,6 0 0 1 6,-6z"
+                android:strokeWidth="10"
+                android:strokeColor="@android:color/white"
+                android:strokeLineJoin="round" />
+        </group>
+        <group
+            android:pivotX="116"
+            android:pivotY="80"
+            android:rotation="-9">
+            <path
+                android:pathData="M70,80 h92 a6,6 0 0 1 6,6 v112 a6,6 0 0 1 -6,6 h-92 a6,6 0 0 1 -6,-6 v-112 a6,6 0 0 1 6,-6z"
+                android:strokeWidth="10"
+                android:strokeColor="@android:color/white"
+                android:strokeLineJoin="round" />
+        </group>
+        <path
+            android:pathData="M70,80 h92 a6,6 0 0 1 6,6 v112 a6,6 0 0 1 -6,6 h-92 a6,6 0 0 1 -6,-6 v-112 a6,6 0 0 1 6,-6z"
+            android:strokeWidth="10"
+            android:strokeColor="@android:color/white"
+            android:strokeLineJoin="round" />
+        <path
+            android:pathData="M64,86 a6,6 0 0 1 6,-6 h92 a6,6 0 0 1 6,6 v26 h-104z"
+            android:strokeWidth="10"
+            android:strokeColor="@android:color/white"
+            android:strokeLineJoin="round" />
+        <path
+            android:pathData="M94,152 l14,14 l30,-32"
+            android:strokeWidth="14"
+            android:strokeColor="@android:color/white"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+    </group>
+</vector>
